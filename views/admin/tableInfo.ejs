@@ -1,0 +1,12 @@
+<tr>
+    <th>Column Name</th>
+    <th>Data Type</th>
+    <th>Nullable</th>
+</tr>
+<%infos.forEach(elem => {%>
+    <tr>
+        <td><%=elem.column_name%></td>
+        <td><%=elem.data_type%></td>
+        <td><%=elem.IS_NULLABLE%></td>
+    </tr>
+<%})%>

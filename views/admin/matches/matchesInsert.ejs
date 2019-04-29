@@ -1,0 +1,80 @@
+<div id = "insertionForm">
+        <form action="/", id = "matchesInsertForm">
+            Series id: <br>
+            <input type="text" name = "series_id" placeholder="Enter" id = "series_id" required>
+            <br>
+            Stadium id: <br>
+            <input type="text" name = "stadium_id" placeholder="Enter" id = "stadium_id" required>
+            <br>
+            Host Country: <br>
+            <input type="text" name = "host_country" placeholder="Enter" id = "host_country" required>
+            <br>
+            Umpire1 Id: <br>
+            <input type="text" name = "umpire1_id" placeholder="Enter" id = "umpire1_id" required>
+            <br>
+            Umpire2 Id: <br>
+            <input type="text" name = "umpire2_id" placeholder="Enter" id = "umpire2_id" required>
+            <br>
+            Third Umpire Id: <br>
+            <input type="text" name = "thirdumpire_id" placeholder="Enter" id = "thirdumpire_id" required>
+            <br>
+            Date: <br>
+            <input type="date" name = "date" id = "date" required>
+            <br>
+            Toss(Team Id): <br>
+            <input type="text" name = "toss" placeholder="Enter" id = "toss" required>
+            <br>
+            Match Type: <br>
+            <input type="text" name = "match_type" placeholder="Enter" id = "match_type" required>
+            <br>
+            <input type="submit" name="submit"  id="submit">
+        </form>
+    
+        <style>
+            #insertionForm{
+                display: inline-block;
+                padding: 10px;
+            }
+        
+            input[type=text]{
+                padding:7px 5px 7px 5px;
+                border: 0;
+                font-size:medium;
+                border: 1px solid gray;
+                border-radius: 4px;
+            }
+        
+            input[type=submit]{
+                margin-top: 10px;
+                margin-bottom: 10px;
+                padding: 8px;
+                border:0;
+                border: 1px solid rgb(13, 13, 201);
+                border-radius: 2px;
+                color: white;
+                background-color: rgb(13, 13, 201);
+            }
+        </style>
+        
+        <script>
+            $(document).ready(()=> {
+                $('#matchesInsertForm').submit(event => {
+                    event.preventDefault()
+                    const formData = $('#countriesInsertForm').serialize()
+        
+                    $.ajax({
+                        type: 'POST',
+                        url: 'admin/insert/Countries',
+                        data: formData,
+                        contentType: 'application/x-www-form-urlencoded',
+                        success: (data)=>{
+                            console.log("Data Inserted")
+                        },
+                        error: (err) => {
+                            console.log(err)
+                        }
+                    })
+                })
+            })
+        </script>
+    </div>

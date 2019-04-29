@@ -1,0 +1,40 @@
+<table class = "suggestionBlock">
+    <tr>
+        <th>Stadium ID</th>
+        <th>Stadium Name</th>
+        <th>Country</th>
+        <th>Capacity</th>
+    </tr>
+
+    <%suggestionList.forEach(elem => {%>
+        <%console.log("Rendering")%>
+        <tr>
+            <td id = <%= elem.player_id %>>
+                <%= elem.stadium_id %>
+            </td>
+            <td><%= elem.stadiuim_name %></td>
+            <td><%= elem.country %></td>
+            <td><%= elem.capacity%></td>
+        </tr>
+    <%})%>
+</table>
+
+<style> 
+    .suggestionBlock{
+        border-bottom: 1px solid gray;
+        border-collapse:collapse;
+    }
+
+    .suggestionBlock td, .suggestionBlock th{
+        padding: 4px;
+    }
+
+    .suggestionBlock td:not(:last-child), 
+    .suggestionBlock th:not(:last-child){
+        border-right: 1px solid gray;
+    }
+
+    .suggestionBlock tr:not(:first-child):hover{
+        cursor: default;
+    }
+</style>

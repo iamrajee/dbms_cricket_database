@@ -1,0 +1,89 @@
+#block2{
+    padding:0;
+    margin:0;
+    padding-top: 70px;
+    display: flex;
+    flex-direction: row;
+    max-height: 100%;
+    /* width: 100%; */
+    /* flex-wrap: nowrap; */
+    overflow: auto;
+    /* overflow-x: hidden; */
+}
+
+#schema{
+    border-bottom: 1px solid black;
+    padding: 6px;
+    flex: 0 0 250px;
+}
+
+#insertion_queryBlock{
+    /* min-height: 100%; */
+    flex: 1 0 auto;
+    /* border-right: 1px solid black; */
+    /* border-left: 1px solid black; */
+    display: flex;
+    flex-direction: column;
+}
+
+#insertionBlock{ 
+    border-right: 1px solid black;
+    border-bottom: 1px solid black; 
+    border-left: 1px solid black;
+}
+
+#insertionHeader{
+    overflow: auto;
+    text-align: center;
+    border-bottom: 1px solid black;
+    background-color: rgb(240, 234, 234);
+}
+
+#insertionContent{
+    /* overflow: auto; */
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+#insertionFormBlock{
+    border-right: 1px solid black;  
+    width: 250px;
+}  
+
+#insertionSuggestion_fkBlock{
+    flex: 1;
+    /* overflow: auto; */
+}
+
+#queryBlock{
+    /* overflow: auto; */
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    margin-bottom: 2px;
+}
+
+#queryHeader{
+    overflow: auto;
+    text-align: center;
+    border-bottom: 1px solid black;
+    background-color: #636d70;
+    background-color: rgb(240, 234, 234);
+    color: black;
+    overflow: auto;
+}
+
+#queryContent{
+    display: flex;
+    flex-direction: row;
+}
+
+#queryFormBlock{
+    border-right: 1px solid black;
+    width: 250px;
+}
+
+/* #queryResultBlock{
+    flex-grow: 1;
+} */

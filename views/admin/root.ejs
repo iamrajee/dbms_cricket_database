@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="rightPan.css">
+    <title>CricStat: Admin</title>
+
+    <style>
+        *{
+            box-sizing: border-box;
+            /* color:white ; */
+            /* color: rgb(136, 141, 156); */
+        }
+
+        html, body{
+            /* background-color: rgb(248, 228, 201); */
+            /* background-color: antiquewhite; */
+            background-color: white;
+            /* background-color: rgb(202, 191, 162); */
+            /* background-color: rgba(14, 11, 11, 0.795); */
+            width: 100%;
+            height: 100%;
+            /* visibility: hidden; */
+            overflow: hidden;
+            padding:0;
+            margin:0;
+        }
+
+        #initialPan{
+            /* margin-top: 70px; */
+            overflow: hidden;
+            height: 100%;
+            border-bottom: 1px solid black;
+        }
+
+        #header{
+            width: 100%;
+            font-size: 4.8vh;
+            border-bottom: 1px solid black;
+            /* background-color: antiquewhite; */
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 10px;
+            height: 70px;
+            position: fixed;
+            background-color: white;
+            opacity: 1;
+            /* background-color: rgb(100, 99, 99); */
+            z-index: 10;
+            /* color: white; */
+            /* background-color: rgb(28, 28, 58); */
+            /* background-color: red; */
+        }
+
+        #header a{
+            text-decoration: none;
+            /* color: rgb(129, 113, 113) */
+            color: rgb(4, 36, 54);
+        }
+
+        #header a:hover{
+            color: rgb(40, 40, 214);
+        }
+
+        #tables td, #views td{
+            border: 1px solid black;
+            /* width: 33%; */
+            box-sizing: border-box;
+            padding: 10px;
+            border-radius: 2px;
+            /* color:rgb(171, 177, 196); */
+            /* color:rgb(136, 141, 156); */
+            cursor: pointer;
+        }
+        #tables td:hover, #views td:hover{
+            /* background-color: #13137c; */
+            background-color: #7e7ea3;
+            color:white;
+        }
+
+        #tableContainer{
+            padding-top: 70px !important;
+            max-width: 50%;
+            height: 100%;
+            padding-left:10px;
+            padding-right: 12px;
+            padding-bottom: 10px;
+            display: inline-block;
+            /* white-space: nowrap; */
+            margin: 0;
+            /* background-color: antiquewhite; */
+            overflow: auto;
+            border-right: 1px solid gray;
+        }
+
+        /* #tableContainer::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        #tableContainer::-webkit-scrollbar-track {
+            height: 50px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+            box-shadow: inset 0 0 1px rgba(0,0,0,0.5); 
+             /* border-radius: 10px;  */
+        /* } */
+
+        /* #tableContainer::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            color:red;
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+            box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+        }  */
+
+        #tables, #views{
+            border-collapse: separate;
+            border-spacing: 12px 4px;
+            /* background-color: antiquewhite; */
+            width:100%;
+            border-top: 1px solid gray;
+        }
+
+        #tables{
+            /* background-color: #faebd7; */
+        }
+
+        #tableExpansion{
+            /* max-width: 50%; */
+            padding-top: 70px;
+            padding-left: 10px;
+            padding-right: 10px;
+            display: inline-block;
+            height:100%;
+            /* max-width: 20%; */
+            overflow: auto;
+            vertical-align: top;
+
+            /* background-color: antiquewhite; */
+        }
+
+        /* #tableExpansion::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        #tableExpansion::-webkit-scrollbar-track {
+            height: 50px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+            box-shadow: inset 0 0 1px rgba(0,0,0,0.5); 
+            border-radius: 10px; 
+        }
+
+        #tableExpansion::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+            box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+        }   */
+
+        #tableExpansion table{
+            border-top: 1px solid gray;
+            border-collapse:collapse;
+            border: 1px solid gray;
+        }
+
+        #tableExpansion td, #tableExpansion th{
+            text-align: center;
+            border-bottom: 1px solid gray;
+            padding: 4px;
+        }
+
+        #tableExpansion th{
+            /* background-color: antiquewhite */
+            background-color: white;
+        }
+
+        #tableExpansion td:not(:first-child), #tableExpansion th:not(:first-child){
+            border-left: 1px solid gray;
+            /* background-color: #13137c; */
+        }
+
+        #insert_query{
+            margin:0;
+            padding:0;
+            padding:10px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            border:0;
+            border: 1px solid rgb(13, 13, 201);
+            border-radius: 2px;
+            color: white;
+            background-color: rgb(13, 13, 201);
+            outline: inherit;
+        }
+
+        #insert_query:hover{
+            cursor:pointer;
+        }
+
+        #insert_query:active{
+            /* border: 0; */
+            background-color: rgb(10, 10, 170);
+            /* border-color: black; */
+        }
+    </style>    
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="rx.lite.js"></script>
+    <script>
+        console.log("found")
+        var selected = ""
+        var bgOnSelected = "#b51b12"
+        // var bgOnSelected = "#68130e"
+        var clrOnSelected = "white"
+        var toggled = false;
+
+        function setSelected(currViewId) {
+            $("#"+selected).css('background-color', '')
+            $('#'+selected).css('color','')
+            $('#'+selected).css('border-color', 'black')
+            selected = currViewId
+            $('#'+selected).css('background-color', bgOnSelected)
+            $('#'+selected).css('color',clrOnSelected)
+            $('#'+selected).css('border-color', 'transparent')
+            $('#tableExpansion h4').html(selected)
+        }
+
+        function fetchTableInfo(table_name){
+            console.log("table_name = "+table_name)
+            $.post("/admin/"+table_name, (data, status) => {
+                console.log("Data Fetched")
+                console.log(data)
+                setSelected(table_name)
+                $('#tableExpansion table:eq(0)').html(data)
+            })
+        }
+
+        function fetchRightPan(table_name){
+            console.log("Fetch Pan for Table  = "+table_name)
+            $.post("admin/rightPan/"+table_name, (data, statuse) => {
+                // console.log("Done ")
+                // $('body').append(data)
+                // $(data).insertAfter('#initialPan')
+                $('#initialPan').replaceWith(data)
+            })
+        }
+
+        // function insertData(table_name){
+
+        // }   
+
+        // function goToHome(){
+        //     $()
+        // }
+
+        $(document).ready(() =>{
+            selected = $('#tables tr:first-child td:first-child ').attr('id')
+            fetchTableInfo(selected)
+
+            $('#tables td, #views td').click(elem =>{
+                table_name = elem.target.id;
+                fetchTableInfo(table_name)
+            })
+
+            $('html, body').css('visibility', 'visible')
+
+            $("#insert_query").click(elem => {
+                if(!toggled){
+                    // $('#tableContainer').toggle()
+                    $('#initialPan').toggle()
+                    // $('#tableExpansion').css("border-right", '1px solid black')
+                    // $('#insert_query').html(">>>")
+                    fetchRightPan(selected)
+                    toggled = true;
+                }
+                else{
+                    // $('#tableContainer').toggle(400)
+                    $('#initialPan').toggle()
+                    // $('#tableExpansion').css("border-right", '')
+                    // $('#insert_query').html("Insert/Query")
+                    // $('body div:eq(3)').replaceWith('')
+                    // $('#suggestionBlock').remove()
+                    toggled = false;
+                }
+            })
+        })
+    </script>  
+</head>
+<body>
+    <!-- <div style = "max-width: 100%"> -->
+    <div id = "header"><a href="/"">CricStat</a></div>
+    <div id = "initialPan">
+        <div id = "tableContainer">
+            <h4>Tables</h4>
+            <table id = "tables">
+                    <%for(let i = 0; i < tables.length;){%>
+                    <tr>
+                        <%for(let j = 0; j < 3 && i < tables.length; j++, i++){%>
+                            <td id = <%= tables[i].table_name + ""%>>
+                                <%=tables[i].table_name%>
+                            </td>
+                        <%}%>
+                    </tr>
+                    <%}%>
+                </table>
+            
+                <h4>Views</h4>
+                <table id = "views">
+                    <%for(let i = 0; i < views.length; i++){%>
+                        <tr>
+                            <%for(let j = 0; j < 2 && i < views.length; j++, i++){%>
+                                <td id = <%= views[i].table_name + ""%>>    
+                                    <%=views[i].table_name%>
+                                </td>
+                            <%}%>
+                            
+                        </tr>
+                    <%}%>
+                </table>
+        </div><!--
+        --><div id = "tableExpansion">
+            <h4></h4>
+            <table>
+    
+            </table>
+            <button id = "insert_query">Insert/Query</button>
+        </div>
+    </div>
+<!-- </div> -->
+</body>
+</html>

@@ -1,0 +1,74 @@
+<div id = "block2">
+    <div id = "schema">
+        <style>
+            #schema table{
+                border-top: 1px solid gray;
+                border-collapse:collapse;
+                border: 1px solid gray;
+            }
+
+            #schema td, #schema th{
+                text-align: center;
+                border-bottom: 1px solid gray;
+                padding: 4px;
+            }
+
+            #schema th{
+                /* background-color: antiquewhite */
+                background-color: white;
+            }
+
+            #schema td:not(:first-child), #schema th:not(:first-child){
+                border-left: 1px solid gray;
+                /* background-color: #13137c; */
+            }    
+        </style>
+        <%= table_name%> Schema: <br>
+        <table>
+            <tr>
+                <th>Column Name</th>
+                <th>Data Type</th>
+                <th>Nullable</th>
+            </tr>
+            <%infos.forEach(elem => {%>
+                <tr>
+                    <td><%=elem.column_name%></td>
+                    <td><%=elem.data_type%></td>
+                    <td><%=elem.IS_NULLABLE%></td>
+                </tr>
+            <%})%>
+        </table>
+    </div><div id = "insertion_queryBlock">
+        <div id = "insertionBlock">
+            <div id = "insertionHeader">
+                <h4>Insertion</h4>
+            </div>
+            <div id = "insertionContent">
+                <div id = "insertionFormBlock">
+                    <!-- Insertion Form block -->
+                    <%-insertionForm%>
+                </div><!--
+                --><div id = "insertionSuggestion_fkBlock">
+                    Suggestions/ForeignKey
+                </div>
+                <div style = "clear: both"></div>
+            </div>
+        </div><div id = "queryBlock">
+            <div id = "queryHeader">
+                <h4>Query</h4>
+            </div>
+            <div id = "queryContent">
+                <div id = "queryFormBlock">
+                    <%-insertionForm%>
+                </div>
+                <div id = "queryResultBlock">
+                    Results of the query will be displayed here.
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div style = "height: 100px; border-top: 1px solid black; text-align: center;
+                line-height: 100%; min-width: 100%; overflow: auto">
+        <p>Cricket Database Project <br> IIT Palakkad</p>
+    </div> -->
+</div>

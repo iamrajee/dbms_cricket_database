@@ -1,0 +1,80 @@
+<div class = "queryResult">
+    <script>
+        $('.queryResult tr:not(:first-child)').click(elem=>{
+            // console.log("Clicked", elem.currentTarget.id)
+            const matchId = $(elem.currentTarget).children().eq(0).html()
+            // data = {seriesId: seriesId}
+            console.log($(elem.currentTarget).children().eq(0).html())
+            // $.post({
+            //     type: 'POST',
+            //     url: 'user/t20/series',
+            //     contentType: 'application/json',
+            //     data: JSON.stringify(data),
+            //     success: (data)=>{
+            //         $('.queryResult').replaceWith(data)
+            //     },
+            //     error: (err)=>{
+            //         console.log(err)
+            //     } 
+            // })
+            window.open("http://localhost:8080/user/t20/match/"+matchId,
+                        '_blank')
+        })
+    </script>
+    <h2>Results</h2>
+    <% if(data.length > 0) { %>
+        <table class = "matchTable">
+            <tr>
+                <th>ID</th>
+                <th>Match</th>
+                <th>Series Name</th>
+                <th>Date</th>
+                <th>Authority</th>
+            </tr>
+            <%data.forEach(elem =>{%>
+                <tr>
+                    <td><%=elem.match_id%></td>
+                    <td><%=elem.team1_name + " vs " + 
+                        elem.team2_name%></td>
+                    <td><%=elem.series_name%></td>
+                    <td><%=elem.date%></td>
+                    <td><%=elem.authority%></td>
+                </tr>
+            <%})%>
+        </table>
+    <%} else{%>
+        <p>No Result Found</p>
+    <%}%>
+
+    <style>
+        .queryResult{
+            padding-top: 5px;
+            padding-bottom: 10px;
+            margin-left: 20px;
+            width: 70%;
+            clear: both;
+            display: block;
+            overflow: auto;
+        }
+        .matchTable{
+            /* display: block; */
+            border: 1px solid black;
+            border-collapse: collapse;
+            /* overflow: auto; */
+        }
+        
+        .matchTable tr:not(:first-child):hover{
+            background-color: antiquewhite;
+            cursor: pointer;
+        }
+        
+        .matchTable td, .matchTable th{
+            padding: 4px;
+            word-break: keep-all;
+            text-align: center;
+            border: 1px solid black;
+            border-collapse: collapse;
+            /* background-color: #ccc; */
+        }
+    </style>
+</div>

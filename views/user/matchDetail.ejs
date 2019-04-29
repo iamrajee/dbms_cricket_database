@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            .attribute{
+                font-weight: bold;
+                color: blue;
+            }
+            .matchName{
+                color: brown;
+            }
+            body > div:first-child{
+                padding-bottom: 6px;
+                border-bottom: 1px solid black;
+                border-radius: 2px;
+                margin-bottom: 22px;
+            }
+            .scorecardHeader, .scorecard, .bowlingScorecardHeader{
+                clear: both;
+                width: 85%;
+                border-bottom: 1px solid rgb(200, 199, 199);
+                border-left: 1px solid rgb(200, 199, 199);
+                border-right: 1px solid rgb(200, 199, 199);
+                overflow: auto;
+            }
+            .cellbatsmanHeader, .cellbatsman, .cellbowlerHeader, .cellbowler{
+                float: left;
+                width: 25%;
+            }
+
+            .celloutHeader, .cellout{
+                float: left;
+                width: 20%;
+            }
+
+             .cellrunsgiven, .cellrunsgivenHeader, .cellovers, 
+             .celloversHeader, .cellwickets, .cellwicketsHeader, 
+             .cellmaidens, .cellmaidensHeader{
+                float: left;
+                width: 18%;
+            }
+            /* {
+                float: left;
+                width: 20%;
+            } */
+            .cellrunsscoredHeader, .cellrunsscored{
+                float: left;
+                width: 10%;
+            }
+            .cellballsfacedHeader, .cellballsfaced{
+                float: left;
+                width: 15%;
+            }
+            .cell4sHeader, .cell4s{
+                float: left;
+                width: 15%;
+            }   
+            .cell6sHeader, .cell6s{
+                float: left;
+                width: 15%;
+            }
+
+            .scorecardHeader > div, .bowlingScorecardHeader > div{
+                border-top: 1px solid rgb(200, 199, 199);
+                text-align: center;
+                color: brown;
+                font-weight: bold;
+                padding-bottom: 6px;
+                padding-top: 6px;
+            }
+            .bowlingScorecardHeader{
+                border-top: 4px solid rgb(233, 228, 228);
+            }
+            .scorecard > div{
+                text-align: center;
+                box-sizing: border-box;
+                padding: 5px;
+            }
+            .team2{
+                display: none;
+            }
+
+            .teamSelection:first-of-type{
+                background-color: rgb(212, 202, 174);
+            }
+
+            .teamSelection{
+                padding: 4px;
+                display: block;
+                cursor: pointer;
+                float: left;
+                border: 1px solid rgb(200, 199, 199)
+            }
+            /* .teamSelection:hover{
+                background-color: aliceblue;
+            } */
+            .teamSelection:not(:first-child){
+                clear: right;
+            }
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script>
+            $(document).ready(()=>{
+                var active = "team1"
+                // $(".team1").hide()
+                $(".teamSelection").click(elem =>{
+                    target = elem.target.id
+                    if(target == active) return;
+                    active = target
+                    // if(target == 'team1'){
+                        $(".team1").toggle()
+                        $(".team2").toggle()
+                    if(target == "team1"){
+                        $(".teamSelection:first-of-type").css("background-color", "rgb(212, 202, 174)")
+                        $(".teamSelection:not(:first-of-type)").css("background-color", "white")
+                    }else{
+                        $(".teamSelection:first-of-type").css("background-color", "white")
+                        $(".teamSelection:not(:first-of-type)").css("background-color", "rgb(212, 202, 174)")
+                    }
+                })
+            })
+        </script>
+    </head>
+    <body>
+        <div>
+            <h2 class="matchName"><%=MatchDetail[0].team1_name 
+                + " vs " + 
+                MatchDetail[0].team2_name%>
+            </h2>
+            <%if(MatchDetail[0].match_type != "normal"){%>
+                <span style="border:1px solid rgb(124, 16, 16); padding:4px; 
+                        display:inline-block;border-radius: 4px;
+                        margin-bottom: 2px;">
+                    <%=MatchDetail[0].match_type%>
+                </span>
+                <br>
+            <%}%>
+            
+            <span class="attribute">
+                Series: 
+            </span>
+            <a href=<%="http://localhost:8080/user/t20/series/"
+                    + MatchDetail[0].series_id%>>
+                <%=MatchDetail[0].series_name%>
+            </a>
+            <br>
+            <span class="attribute">
+                Date: 
+            </span>
+            <%=MatchDetail[0].date%>
+            <br>
+            <span class="attribute">
+                Stadium: 
+            </span>
+            <a href=<%="http://localhost:8080/user/stadium/"
+                    + MatchDetail[0].stadium_id%>>
+                <%=MatchDetail[0].stadium_name%>
+            </a>
+            <br>
+            <span class="attribute">
+                Umpires: 
+            </span>
+            <%=MatchDetail[0].umpire1_name + ", " +  
+                 MatchDetail[0].umpire2_name%>
+            <br>
+            <span class="attribute">
+                Third Umpire: 
+            </span>
+            <%=MatchDetail[0].thirdumpire_name %>
+        </div>
+        <span class = "teamSelection" id = "team1">
+            <%=team1Scorecard.batting[0].team_name%>
+        </span>
+        <span class="teamSelection" id = "team2">
+            <%=team2Scorecard.batting[0].team_name%>
+        </span>
+        <div class="team1">
+            <div class = "scorecardHeader">
+                <div class = "cellbatsmanHeader">Batsman</div>
+                <div class = "celloutHeader">Out</div>
+                <div class = "cellrunsscoredHeader">Runs</div>
+                <div class= "cellballsfacedHeader">Balls</div>
+                <div class= "cell4sHeader">4s</div>
+                <div class= "cell6sHeader">6s</div>
+            </div>
+            <%team1Scorecard.batting.forEach(elem =>{%>
+                <div class = "scorecard">
+                    <div class = "cellbatsman"><%=elem.batsman_name%></div>
+                    <div class = "cellout"><%=elem.out%></div>
+                    <div class = "cellrunsscored"><%=elem.runs_scored%></div>
+                    <div class= "cellballsfaced"><%=elem.balls_faced%></div>
+                    <div class = "cell4s"><%=elem.fours%></div>
+                    <div class = "cell6s"><%=elem.sixes%></div>
+                </div>
+            <%})%>
+
+            <div class = "bowlingScorecardHeader">
+                <div class = "cellbowlerHeader">Bowler</div>
+                <div class = "cellrunsgivenHeader">Runs</div>
+                <div class = "cellmaidensHeader">Maidens</div>
+                <div class= "celloversHeader">Overs</div>
+                <div class= "cellwicketsHeader">Wickets</div>
+            </div>
+            <%team1Scorecard.bowling.forEach(elem =>{%>
+                <div class = "scorecard">
+                    <div class = "cellbowler"><%=elem.batsman_name%></div>
+                    <div class = "cellrunsgiven"><%=elem.out%></div>
+                    <div class = "cellmaidens"><%=elem.runs_scored%></div>
+                    <div class= "cellovers"><%=elem.balls_faced%></div>
+                    <div class = "cellwickets"><%=elem.wicketsTaken%></div>
+                </div>
+            <%})%>
+        </div>
+        <div class="team2">
+            <div class = "scorecardHeader">
+                <div class = "cellbatsmanHeader">Batsman</div>
+                <div class = "celloutHeader">Out</div>
+                <div class = "cellrunsscoredHeader">Runs</div>
+                <div class= "cellballsfacedHeader">Balls</div>
+                <div class= "cell4sHeader">4s</div>
+                <div class= "cell6sHeader">6s</div>
+            </div>
+            <%team2Scorecard.batting.forEach(elem =>{%>
+                <div class = "scorecard">
+                    <div class = "cellbatsman"><%=elem.batsman_name%></div>
+                    <div class = "cellout"><%=elem.out%></div>
+                    <div class = "cellrunsscored"><%=elem.runs_scored%></div>
+                    <div class= "cellballsfaced"><%=elem.balls_faced%></div>
+                    <div class = "cell4s"><%=elem.fours%></div>
+                    <div class = "cell6s"><%=elem.sixes%></div>
+                </div>
+            <%})%>
+
+            <div class = "bowlingScorecardHeader">
+                <div class = "cellbowlerHeader">Bowler</div>
+                <div class = "cellrunsgivenHeader">Runs</div>
+                <div class = "cellmaidensHeader">Maidens</div>
+                <div class= "celloversHeader">Overs</div>
+                <div class= "cellwicketsHeader">Wickets</div>
+            </div>
+            <%team2Scorecard.bowling.forEach(elem =>{%>
+                <div class = "scorecard">
+                    <div class = "cellbowler"><%=elem.player_name%></div>
+                    <div class = "cellrunsgiven"><%=elem.runs_given%></div>
+                    <div class = "cellmaidens"><%=elem.maidens%></div>
+                    <div class= "cellovers"><%=elem.overs_bowled + "."+elem.balls_bowled%></div>
+                    <div class = "cellwickets"><%=elem.wicketsTaken%></div>
+                </div>
+            <%})%>
+        </div>
+
+        
+    </body>
+</html>

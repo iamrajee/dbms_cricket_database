@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            .stadiumDetail{
+                /* min-width: 100%; */
+                width: 100%;
+                overflow: auto;
+                /* border: 1px solid black; */
+                border-radius: 2px;
+                /* background-color:#f4f4f8  ; */
+                border-bottom: 1px solid black;
+                padding: 8px;
+                box-sizing: border-box;
+                padding-top: 0px;
+            }
+            .stadiumDetail .left{
+                float: left;
+            }
+            .stadiumDetail .right{
+                float: left;
+                margin-left: 30px;
+                max-width: 40ch;
+            }
+            .attribute{
+                /* font-weight: bold; */
+                color: rgb(1, 1, 133);
+            }
+            .stadiumName{
+                color: brown;
+            }
+            .matches {
+                margin-top: 12px;
+                /* border: 1px solid black; */
+                float: left;
+            }
+            .teams{
+                float: left;
+                margin-left: 12px;
+            }
+            /* .matches table, .teams table{
+                border:1px solid black;
+            } */
+
+            .matches table td{
+                padding-right: 12px;
+                padding-bottom: 4px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="stadiumDetail">
+            <h2 class="stadiumName">
+                <%=Stadium[0].stadium_name%>
+            </h2>
+        <!-- <p>  -->
+            <div class = "left">
+                <span class="attribute">
+                    Capacity:
+                </span>
+                <%=Stadium[0].capacity%>
+                <br>
+
+                <span class="attribute">
+                    Country:
+                </span>
+                <%=Stadium[0].country_name%>
+                <br>
+                <span class="attribute">
+                    Total Matches Played:
+                </span>
+                <%=Stadium[0].matchesPlayed%>
+          
+                <br>
+                <span class="attribute">
+                    T20 Matches Played:
+                </span>
+                <%=Stadium[0].t20MatchesPlayed%>
+                <br>
+
+                <span class="attribute">
+                    ODI Matches Played:
+                </span>
+                <%=Stadium[0].odiMatchesPlayed%>
+                <br>
+
+                <span class="attribute">
+                    Test Matches Played:
+                </span>
+                <%=Stadium[0].testMatchesPlayed%>
+                <br>
+
+            </div>
+        </div>
+    </body>
+</html>

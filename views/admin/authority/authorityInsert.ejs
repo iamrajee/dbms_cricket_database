@@ -1,0 +1,59 @@
+<div id = "insertionForm">
+    <form action="/", id = "authorityInsertForm">
+        Enter Authority Name: <br>
+        <input type="text" name = "authority" placeholder="Enter" id = "authority" required>
+        <br>
+        <input type="submit" name="submit"  id="submit">
+    </form>
+
+    <style>
+        #insertionForm{
+            display: inline-block;
+            overflow: auto;
+            padding: 10px;
+        }
+    
+        input[type=text]{
+            padding:7px 5px 7px 5px;
+            border: 0;
+            font-size:medium;
+            border: 1px solid gray;
+            border-radius: 4px;
+        }
+    
+        input[type=submit]{
+            margin-top: 10px;
+            margin-bottom: 10px;
+            padding: 8px;
+            border:0;
+            border: 1px solid rgb(13, 13, 201);
+            border-radius: 2px;
+            color: white;
+            background-color: rgb(13, 13, 201);
+        }
+    </style>
+    
+    <script>
+        $(document).ready(()=> {
+            $('#authorityInsertForm').submit(event => {
+                console.log("Inserting Data")
+                event.preventDefault()
+                var formData = $('#authorityInsertForm').serialize()
+    
+                $.ajax({
+                    type:'POST',
+                    url: "/admin/insert/Authority",
+                    data: formData,
+                    contentType: "application/x-www-form-urlencoded",
+                    success: (data) => {
+                        console.log("Data Inserted")
+                        console.log(data)
+                    },
+                    error: (err) => {
+                        console.log("Error Occured")
+                    }
+                })
+            })
+        })
+    </script>
+</div>

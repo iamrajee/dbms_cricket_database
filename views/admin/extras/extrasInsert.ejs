@@ -1,0 +1,68 @@
+<div id = "insertionForm">
+    <form action="/", id = "countriesInsertForm">
+        Team Position: <br>
+        <input type="text" name = "team_position" placeholder="Enter" id = "team_position" required>
+        <br>
+        No Balls: <br>
+        <input type="text" name = "no_balls" placeholder="Enter" id = "no_balls" required>
+        <br>
+        Wide: <br>
+        <input type="text" name = "wide" placeholder="Enter" id = "wide" required>
+        <br>
+        Leg Byes: <br>
+        <input type="text" name = "leg_byes" placeholder="Enter" id = "leg_byes" required>
+        <br>
+        Byes: <br>
+        <input type="text" name = "byes" placeholder="Enter" id = "byes" required>
+        <br>
+        <input type="submit" name="submit"  id="submit">
+    </form>
+
+    <style>
+        #insertionForm{
+            display: inline-block;
+            padding: 10px;
+        }
+    
+        input[type=text]{
+            padding:7px 5px 7px 5px;
+            border: 0;
+            font-size:medium;
+            border: 1px solid gray;
+            border-radius: 4px;
+        }
+    
+        input[type=submit]{
+            margin-top: 10px;
+            margin-bottom: 10px;
+            padding: 8px;
+            border:0;
+            border: 1px solid rgb(13, 13, 201);
+            border-radius: 2px;
+            color: white;
+            background-color: rgb(13, 13, 201);
+        }
+    </style>
+    
+    <script>
+        $(document).ready(()=> {
+            $('#extrasInsertForm').submit(event => {
+                event.preventDefault()
+                const formData = $('#extrasInsertForm').serialize()
+    
+                $.ajax({
+                    type: 'POST',
+                    url: 'admin/insert/Countries',
+                    data: formData,
+                    contentType: 'application/x-www-form-urlencoded',
+                    success: (data)=>{
+                        console.log("Data Inserted")
+                    },
+                    error: (err) => {
+                        console.log(err)
+                    }
+                })
+            })
+        })
+    </script>
+</div>

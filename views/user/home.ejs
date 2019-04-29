@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>CricStat: User Home</title>
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    
+    <script src="main.js"></script> -->
+    <script src="rx.lite.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <style>
+    html,
+    body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        color: #111;
+        /*background-color: rgb(212, 202, 218);*/
+        position: relative;
+        background-color: #fff;
+        overflow-x: hidden;
+    }
+
+    .container{
+        width: 100%;
+        background-color:white;
+        min-height: 100%;
+    }
+    
+    #sideNav{
+        padding: 0px 0px 16px 0px;
+        width: 250px;
+        height: 100%;
+        position: fixed;
+        float: left;
+        background-color:rgb(249, 250, 245);
+        border:0;
+        border-right-width: 3px;
+        border-style: solid;
+        /* border-right-color: #FFEFD5; */
+        border-right-color: rgb(73, 68, 59);
+    }
+
+    #sideNav .header{
+        text-align: center;
+        /* border-bottom: 1px solid red;
+        padding-bottom: 50px;
+        padding-top: 50px; */
+        /* background-color: rgba(228, 158, 29, 0.432);    */
+    }
+
+    #sideNav .navigations{
+        display: block;
+    }
+
+    .header{
+        cursor:pointer;
+    }
+
+    .odiIcon, .toggleContainer, .homeIcon, .t20Icon, .iplIcon, .wcIcon, .testIcon{
+        float: left;
+        height: 100%;
+        min-width: 24px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .header:hover{
+        background-color: antiquewhite;
+        color: black;
+    }
+
+    #sideNav .toggle{
+        width: 18px;
+        height: 3px;
+        background-color: black;
+        margin-bottom: 3px;
+    }
+
+    #sideNav .navigations > div{
+        overflow: hidden;
+        padding: 15px 0px 15px 0px;
+        /* background-color: rgb(180, 155, 155); */
+        border-bottom: 1px solid gray;
+        color:black;
+    }
+
+    #sideNav .navigations > div:hover{
+        background-color: #FFEFD5 !important;
+        color: black;
+        cursor: pointer;
+    }
+
+    #sideNav .navigations a{
+        text-align: center;
+        text-decoration: none;
+        /* height: 32px; */
+        padding: 0px 0px 0px 16px;
+        display: block;
+        /* border-bottom: 1px solid gray; */
+    }
+
+    #content{
+        padding-top: 6px;
+        margin-left: 260px;
+        float:left;
+        width:calc(100% - 260px);
+        /* overflow-x: auto; */
+    }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        var toggleFlag = true;
+        var selected = 'navhome';
+        // var $ = jQuery.noConflict();
+
+        $(document).ready(() => {
+            $('.navhome').css('background-color','#FFEFD5');
+
+            $('.navigations').children().click((elem)=>{
+                // console.log($(this).html())
+                var myclass = elem.currentTarget.className;
+                if(myclass == 'header'){
+                    toggle();
+                }
+                else{
+                    $("."+selected).css('background-color', 'rgb(249, 250, 245)')
+                    selected = myclass
+                    $("."+selected).css('background-color', '#FFEFD5')
+                    // print()
+                    if(selected == "navt20"){
+                        console.log("Data Fetching")
+                        $.get("/user/t20", function (data, status) {
+                            console.log("Data Fetched")
+                            // console.log(data)
+                            $('#content').html(data)
+                        })
+                    }
+                }
+            });
+        })
+
+        function toggle(){
+            if(toggleFlag){
+                console.log("Clicked");
+                document.getElementById("sideNav").style.width = "64px";
+                $('.desc').hide();
+                $('#content').css('margin-left','74px');
+                $('#sideNav').children().children().animate({
+                    paddingLeft:'10px',
+                    // paddingRight:'20px',
+                }, 500);
+                toggleFlag = false;
+            }
+            else{
+                document.getElementById("sideNav").style.width = "250px";
+                $('.desc').show();
+                $('#content').css('margin-left','260px');
+                $('#sideNav').children().children().animate({
+                    paddingLeft:'0px',
+                    // paddingRight:'20px',
+                },0);
+                toggleFlag = true;
+            }
+        }
+    </script>
+</head> 
+<body>
+    <div class = "container">
+        <div id = "sideNav">
+            <div class="navigations">
+                <div class="header">
+                    <div class="toggleContainer" >
+                            <div class="toggle"> </div>
+                            <div class="toggle"></div>
+                            <div class="toggle"></div>
+                    </div>
+                    <a class="desc">CricStat</a> 
+                </div>
+                <div class="navhome">
+                    <div class="homeIcon">
+                        <img src="/icons/home.png" alt="Cinque Terre" width="18px" height="18px">
+                    </div>
+                    <a class="desc">Home</a>
+                </div>
+                <div class="navt20">
+                    <div class="t20Icon">
+                        <img src="/icons/t20.png" alt="Cinque Terre" width="18px" height="18px">
+                    </div>
+                    <a class="desc">T20</a>
+                </div>
+                <div class="navodi">
+                    <div class="odiIcon"><></div>
+                    <a class="desc">ODI</a>
+                </div>
+                <div class="navtest">
+                    <div class="testIcon"><></div>
+                    <a class="desc">Test</a>
+                </div>
+                <div class="navipl">
+                    <div class="iplIcon"><></div>
+                    <a class="desc">IPL</a>
+                </div>
+                <div class="navwc">
+                    <div class="wcIcon"><></div>
+                    <a class="desc">World Cup</a>
+                </div>
+             </div>
+        </div>
+        <div id = "content">
+            <p>Contents Here</p>
+        </div>
+    </div>
+</body>
+</html>

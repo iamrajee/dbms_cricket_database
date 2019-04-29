@@ -1,0 +1,48 @@
+<table class = "suggestionBlock">
+    <tr>
+        <th>Player ID</th>
+        <th>Player Name</th>
+        <th>Role</th>
+        <th>DOB</th>
+        <th>Batting Style</th>
+        <th>Bowling Style</th>
+    </tr>
+
+    <%suggestionList.forEach(elem => {%>
+        <%console.log("Rendering")%>
+        <%d = new Date(elem.dob) %>
+        <%d = ""+ d.getFullYear() + "-" +d.getMonth() + "-" +  d.getDate() %>
+        <tr>
+            <td id = <%= elem.player_id %>>
+                <%= elem.player_id %>
+            </td>
+            <td><%= elem.player_name %></td>
+            <td><%= elem.role %></td>
+            <td><%= d %></td>
+            <td><%= elem.batting_style %></td>
+            <td><%= elem.bowling_style %></td>
+    <%})%>
+</table>
+
+<style> 
+    .suggestionBlock{
+        border-bottom: 1px solid gray;
+        border-collapse:collapse;
+        border: 1px solid gray;
+    }
+
+    .suggestionBlock td, .suggestionBlock th{
+        padding: 4px;
+        word-break: keep-all;
+    }
+
+    .suggestionBlock td:not(:last-child), 
+    .suggestionBlock th:not(:last-child){
+        border-right: 1px solid gray;
+    }
+
+    .suggestionBlock tr:not(:first-child):hover{
+        cursor: default;
+    }
+
+</style>

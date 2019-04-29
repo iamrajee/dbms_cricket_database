@@ -1,0 +1,80 @@
+<div class = "queryResult">
+    <script>
+        $('.queryResult tr:not(:first-child)').click(elem=>{
+            // console.log("Clicked", elem.currentTarget.id)
+            const seriesId = $(elem.currentTarget).children().eq(0).html()
+            data = {seriesId: seriesId}
+            console.log($(elem.currentTarget).children().eq(0).html())
+            // $.post({
+            //     type: 'POST',
+            //     url: 'user/t20/series',
+            //     contentType: 'application/json',
+            //     data: JSON.stringify(data),
+            //     success: (data)=>{
+            //         $('.queryResult').replaceWith(data)
+            //     },
+            //     error: (err)=>{
+            //         console.log(err)
+            //     } 
+            // })
+            window.open("http://localhost:8080/user/t20/series/"+seriesId,
+                     '_blank')
+        })
+    </script>
+    <h2>Results</h2>
+    <% if(series.length > 0) { %>
+        <table class = "seriesTable">
+            <tr>
+                <th>ID</th>
+                <th>Series Name</th>
+                <th>Type</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Authority</th>
+            </tr>
+            <%series.forEach(elem =>{%>
+                <tr>
+                    <td><%=elem.series_id%></td>
+                    <td><%=elem.series_name%></td>
+                    <td><%=elem.series_type%></td>
+                    <td><%=elem.starting_date%></td>
+                    <td><%=elem.end_date%></td>
+                    <td><%=elem.authority%></td>
+                </tr>
+            <%})%>
+        </table>
+    <%} else{%>
+        <p>No Result Found</p>
+    <%}%>
+
+    <style>
+        .queryResult{
+            padding-top: 5px;
+            margin-left: 20px;
+            width: 70%;
+            clear: both;
+            display: block;
+            overflow: auto;
+        }
+        .seriesTable{
+            /* display: block; */
+            border: 1px solid black;
+            border-collapse: collapse;
+            /* overflow: auto; */
+        }
+        
+        .seriesTable tr:not(:first-child):hover{
+            background-color: antiquewhite;
+            cursor: pointer;
+        }
+        
+        .seriesTable td, .seriesTable th{
+            padding: 4px;
+            word-break: keep-all;
+            text-align: center;
+            border: 1px solid black;
+            border-collapse: collapse;
+            /* background-color: #ccc; */
+        }
+    </style>
+</div>

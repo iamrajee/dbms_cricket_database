@@ -1,0 +1,219 @@
+<style>
+    .t20Content{
+        width:100%;
+    }
+    .seriesNameContainer{
+        margin-left: 20px;  
+        width: 20%;
+        /* float: left; */
+    }
+    .seriesName{
+        width:100%;
+        border: 1px solid black;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        display: block;
+        text-align: center;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    .seriesName:hover{
+        cursor: pointer;
+        background-color: #FFEFD5;
+    }
+
+    .filter{
+        /* background-color: black; */
+        box-sizing: border-box;
+        float:left;
+        clear: both;
+        /* width: 40%; */
+        /* height: 10px; */
+        margin-top: 5px;
+        margin-left: 20px;
+        padding: 10px;
+        /* margin-right: 10px; */
+        border: 1px solid black;
+        border-radius: 4px; 
+    }
+    select, input[type='date']{
+        padding: 4px;
+        margin: 4px;
+    }
+</style>
+<script>
+    $(document).ready(() =>{
+        $('.seriesNameContainer .seriesName').click((elem)=>{
+            console.log(elem)
+            console.log($("#"+elem.currentTarget.id).index('.seriesNameContainer a'))
+            
+            const seriesId = parseInt(elem.target.id)
+            console.log("Series Id : "+seriesId)
+            const url = "user/t20/series/"+seriesId;
+            console.log(url)
+            $.post(url, (data, status)=>{
+                console.log("T20 Series data Fetched")
+                console.log(data)
+            })
+        })
+
+        $("input[type='radio'][name='fetch']").eq(0).prop("checked", true);
+
+        var fetchRadioStrt = $("input[type='radio'][name='fetch']:checked").val()
+        
+        var fetchRadioObs = 
+            Rx.Observable.fromEvent($("input[type='radio'][name='fetch']")
+                                , 'change')
+                                .startWith(fetchRadioStrt)
+                                .map(v => 
+                                {
+                                    var value = v
+                                    if(typeof v !== 'string'){
+                                        value = $(v.target).val()
+                                    }
+                                    if(value == 'series'){
+                                        $("#hostCountry").prop('disabled', true)
+                                    }
+                                    else{
+                                        $("#hostCountry").prop('disabled', false) 
+                                    }
+                                    return v
+                                })
+        
+        var startingDateObs = 
+            Rx.Observable.fromEvent($("#startingDate"),'blur')
+                                .startWith("")
+        
+        var endingDateObs = 
+            Rx.Observable.fromEvent($("#endingDate"),'blur')
+                                .startWith("")
+        
+        var team1Obs = 
+            Rx.Observable.fromEvent($("#team1"),'change')
+                                .startWith("-1")
+        
+        var team2Obs = 
+            Rx.Observable.fromEvent($("#team2"),'change')  
+                                .startWith("-1")
+
+        var hostCountryObs = 
+            Rx.Observable.fromEvent($('#hostCountry'),'change').startWith("-1")
+            
+        var combinedObs = Rx.Observable.combineLatest(fetchRadioObs, startingDateObs,
+                                endingDateObs, team1Obs, team2Obs, hostCountryObs
+                                )
+                                .debounce(200)
+                                .map(([a, b, c, d, e, f])=>{   
+                                    if(typeof a !== 'string') a = $(a.target).val()
+                                    if(typeof b !== 'string') b = $(b.target).val()
+                                    if(typeof c !== 'string') c = $(c.target).val()
+                                    if(typeof d !== 'string') d = $(d.target).val()
+                                    if(typeof e !== 'string') e = $(e.target).val()
+                                    if(typeof f !== 'string') f = $(f.target).val()
+                                    return [a, b, c, d, e, f]
+                                })
+
+        combinedObs.subscribe(
+            ([a, b, c, d, e, f])=>{
+                console.log("Result = ", a, b, c, d, e, f)
+                if(a == 'series'){
+                    data = {strtDt: b, endDt: c, team1ID: d, team2ID: e}
+                    $.post({
+                        type: 'POST',
+                        url: 'user/t20/series',
+                        contentType: 'application/json',
+                        data: JSON.stringify(data),
+                        success: (data)=>{
+                            $('.queryResult').replaceWith(data)
+                        },
+                        error: (err)=>{
+                            console.log(err)
+                        } 
+                    })
+                }else{
+                    data = {strtDt: b, endDt: c, team1ID: d, team2ID: e, hostCountryId:f}
+                    $.post({
+                        type: 'POST',
+                        url: 'user/t20/matches',
+                        contentType: 'application/json',
+                        data: JSON.stringify(data),
+                        success: (data)=>{
+                            $('.queryResult').replaceWith(data)
+                        },
+                        error: (err)=>{
+                            console.log(err)
+                        } 
+                    }) 
+                }
+            },
+            (err)=>{console.log(err)}
+        )
+    })
+</script>
+<div class = "t20Content">
+    <h2 style="margin-left: 20px;">Filter</h2>
+    <div class = "filter">
+        <div>
+            <input type="radio" name = "fetch" value = "series">
+            getSeries
+            <input type="radio" name="fetch" value="matches">
+            getMatches
+            <br>
+        </div>
+        <div>
+            Starting Date: 
+            <input type="date" name="StartingDate" id="startingDate">
+            <br>
+            Ending Date:
+            <input type="date" name="EndDate" id="endDate">
+        </div>
+
+        <div>
+            Host Country: 
+            <select name="HostCountry" id="hostCountry">
+                <option value="-1">
+                    All
+                </option>
+                <% countries.forEach(elem => { %>
+                    <option value= <%= elem.country_id %>>
+                        <%= elem.country_name %>
+                    </option>
+                <% }) %>
+            </select>
+        </div>
+        <div>
+            Teams: 
+            <select name="Team1" id="team1">
+                <option value="-1">
+                    All
+                </option>
+                <% teams.forEach(elem => { %>
+                    <option value= <%= elem.team_id%>>
+                        <%= elem.team_name + " : " + elem.authority%>
+                    </option>
+                <% }) %>
+            </select>
+            vs
+            <select name="Team2" id="team2">
+                <option value="-1">
+                    All
+                </option>
+                <% teams.forEach(elem => { %>
+                    <option value= <%= elem.team_id%>>
+                        <%= elem.team_name + " : " + elem.authority%>
+                    </option>
+                <% }) %>
+            </select>
+        </div>
+    </div>
+    <div class="queryResult"></div>
+    <!-- <div class="seriesNameContainer">
+        <% series.forEach(elem =>{ %>
+            <a class="seriesName" id = <%= elem.series_id+"series"%>>
+                <%= elem.series_name%>
+            </a>
+        <% }) %>
+        
+    </div> -->
+</div>

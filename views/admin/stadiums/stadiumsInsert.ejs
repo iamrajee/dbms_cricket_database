@@ -1,0 +1,73 @@
+<div id = "insertionForm">
+    <form action="/" id = "stadiumsInsertForm">
+        Stadium Name: <br>
+        <input type="text" name="stadium_name" placeholder="Enter" id = "player_name" required>
+        <br>
+        Country: <br>
+        <input type="text" name="country" placeholder="Enter" id= "country" required>
+        <br>
+        Capacity: <br>
+        <input type="text" name="capacity" placeholder="Enter" id = "capacity">
+        <br>
+        <input type="submit" name="submit"  id="submit">
+    </form>
+
+    <style>
+        #insertionForm{
+            display: inline-block;
+            overflow: auto;
+            padding: 10px;
+        }
+    
+        input[type=text]{
+            padding:7px 5px 7px 5px;
+            width: 100%;
+            border: 0;
+            font-size:medium;
+            border: 1px solid gray;
+            border-radius: 4px;
+        }
+    
+        input[type=submit]{
+            margin-top: 10px;
+            margin-bottom: 10px;
+            padding: 8px;
+            border:0;
+            border: 1px solid rgb(13, 13, 201);
+            border-radius: 2px;
+            color: white;
+            background-color: rgb(13, 13, 201);
+        }
+    </style>
+    <script>
+
+        function postRequest(a, b, c, d, e){
+            // data1 = {player_name: a, role: b, dob: c, batting_style: d, bowling_style: e}
+            // console.log("Posting Data")
+            // // console.log(JSON.stringify(data1))
+            // $.ajax({
+            //     type: 'POST',
+            //     url: '/admin/players/suggestion',
+            //     contentType: "application/json",
+            //     data: JSON.stringify(data1),
+            //     success: (data) =>{
+            //         console.log(data)
+            //         console.log("Suggestions Fetched: insertingAfter")
+            //         if($('#suggestionBlock').length == 0){
+            //             $(data).insertAfter('#insertionForm')
+            //         }
+            //         else{
+            //             $('#suggestionBlock').replaceWith(data)
+            //         }
+            //     },
+            //     error: (err) =>{
+            //         console.log(err)
+            //     }
+            // })
+        }
+
+        $(document).ready(()=> {
+
+        })
+    </script>
+</div>

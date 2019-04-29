@@ -1,0 +1,77 @@
+<div id = "insertionForm">
+        <form action="/", id = "bowlingScorecardInsertForm">
+            Match Id: <br>
+            <input type="text" name = "match_id" placeholder="Enter" id = "match_id" required>
+            <br>
+            Player Id: <br>
+            <input type="text" name = "player_id" placeholder="Enter" id = "player_id" required>
+            <br>
+            Special Role: <br>
+            <select name="special_role" id="special_rol">
+                <%specialRoles.forEach(elem => {%>
+                    <option value=<%- elem%>>
+                        <%= elem%>
+                    </option>
+                <%})%>
+            </select>
+            <br>
+            <br>
+            <input type="submit" name="submit"  id="submit">
+        </form>
+    
+        <style>
+            #insertionForm{
+                display: inline-block;
+                padding: 10px;
+            }
+        
+            input[type=text]{
+                padding:7px 5px 7px 5px;
+                border: 0;
+                font-size:medium;
+                border: 1px solid gray;
+                border-radius: 4px;
+            }
+        
+            input[type=submit]{
+                margin-top: 10px;
+                margin-bottom: 10px;
+                padding: 8px;
+                border:0;
+                border: 1px solid rgb(13, 13, 201);
+                border-radius: 2px;
+                color: white;
+                background-color: rgb(13, 13, 201);
+            }
+
+            #insertionForm select{
+                padding:7px 5px 7px 5px;
+                border: 0;
+                font-size:medium;
+                border: 1px solid gray;
+                border-radius: 4px;
+            }
+        </style>
+        
+        <script>
+            $(document).ready(()=> {
+                $('#bowlingScorecardInsertForm').submit(event => {
+                    event.preventDefault()
+                    event.stopImmediatePropagation()
+                    const formData = $('#bowlingScorecardInsertForm').serialize()
+                    $.ajax({
+                        type: 'POST',
+                        url: 'admin/insert/Countries',
+                        data: formData,
+                        contentType: 'application/x-www-form-urlencoded',
+                        success: (data)=>{
+                            console.log("Data Inserted")
+                        },
+                        error: (err) => {
+                            console.log(err)
+                        }
+                    })
+                })
+            })
+        </script>
+    </div>

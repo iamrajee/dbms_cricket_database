@@ -1,0 +1,162 @@
+<div id = "insertionForm">
+    <form action="/" id = "playersInsertForm">
+        Player Name: <br>
+        <input type="text" name="player_name" placeholder="Enter" id = "player_name" required>
+        <br>
+        Role: <br>
+        <select name="role" id="role" required>
+            <!-- <option value="None" id = "emptyRole">None</option> -->
+            <%rolesArr.forEach(elem => {%>
+                <option value=<%= elem%>><%= elem%></option>
+            <%})%>
+        </select>
+        <br>
+        DOB: <br>
+        <input type="date" name = "dob" id = "dob" required>
+        <br>
+        Batting Style: <br>
+        <select name="batting_style" id="batting_style" required>
+            <!-- <option value="None" id = "empytyBattingStyle">None</option> -->
+            <%battingStyleArr.forEach(elem => {%>
+                <option value= '<%=elem %>'><%=elem %></option>
+            <%})%>
+        </select>
+        <br>
+        Bowling Style: <br>
+        <select name="bowling_style" id="bowling_style" required>
+            <!-- <option value="" id = "empytyBowlingStyle">None</option> -->
+            <%bowlingStyleArr.forEach(elem => {%>
+                <option value= '<%=elem %>'><%=elem %></option>
+            <%})%>
+        </select>
+        <br>
+        <input type="submit" name="submit"  id="submit">
+    </form>
+
+    <style>
+        #insertionForm{
+            display: inline-block;
+            /* max-width: 20%; */
+            overflow: auto;
+            padding: 10px;
+        }
+    
+        input[type=text]{
+            padding:7px 5px 7px 5px;
+            width: 100%;
+            border: 0;
+            font-size:medium;
+            border: 1px solid gray;
+            border-radius: 4px;
+        }
+    
+        input[type=submit]{
+            margin-top: 10px;
+            margin-bottom: 10px;
+            padding: 8px;
+            border:0;
+            border: 1px solid rgb(13, 13, 201);
+            border-radius: 2px;
+            color: white;
+            background-color: rgb(13, 13, 201);
+        }
+
+        #insertionForm select{
+            padding:7px 2px 7px 2px;
+            font-size:small;
+            width: 100%;
+        }
+    </style>
+    <script>
+
+        function postRequest(a, b, c, d, e){
+            data1 = {player_name: a, role: b, dob: c, batting_style: d, bowling_style: e}
+            console.log("Posting Data")
+            // console.log(JSON.stringify(data1))
+            $.ajax({
+                type: 'POST',
+                url: '/admin/players/suggestion',
+                contentType: "application/json",
+                data: JSON.stringify(data1),
+                success: (data) =>{
+                    console.log(data)
+                    console.log("Suggestions Fetched: insertingAfter")
+                    // if($('#suggestionBlock').length == 0){
+                    //     $(data).insertAfter('#insertionForm')
+                    // }
+                    // else{
+                        $('#insertionSuggestion_fkBlock').html(data)
+                    // }
+                },
+                error: (err) =>{
+                    console.log(err)
+                }
+            })
+        }
+
+        $(document).ready(()=> {
+
+            const strt1 = $('#role option').eq(0).val()
+            const strt2 = $('#batting_style').eq(0).val()
+            // const strt2 = "Amit Vikram Singh"
+            const strt3 = $('#bowling_style').eq(0).val()
+
+            var player_nameObs = Rx.Observable.fromEvent($('#player_name'),'keyup')
+                                .debounce(400).startWith("")
+            var roleObs = Rx.Observable.fromEvent($('#role'),'change').startWith(strt1)
+            var dobObs = Rx.Observable.fromEvent($('#dob'), 'blur').startWith("")
+            var batting_styleObs = Rx.Observable.fromEvent($('#batting_style'), 'change').startWith(strt2)
+            var bowling_styleObs = Rx.Observable.fromEvent($('#bowling_style'), 'change').startWith(strt3)
+
+            var combinedObs = Rx.Observable.combineLatest(player_nameObs, roleObs, dobObs,
+                                        batting_styleObs, bowling_styleObs, 
+                                        )
+                                        .debounce(200)
+                                        .map(([a, b, c, d, e]) =>{
+                                            if(typeof a !== 'string') a = $(a.target).val()
+                                            if(typeof b !== 'string') b = $(b.target).val()
+                                            if(typeof c !== 'string') c = $(c.target).val()
+                                            if(typeof d !== 'string') d = $(d.target).val()
+                                            if(typeof e !== 'string') e = $(e.target).val()
+                                            return [a, b, c, d, e]
+                                        })
+                                        .skip(1)
+            combinedObs.subscribe(  
+                ([a, b, c, d, e]) => {
+                    // if(typeof a !== 'string' || typeof b !== 'string' || typeof c !== 'string'|| typeof d !== 'string'
+                    //     || typeof e !== 'string') console.log("Not String")
+                    console.log("Emission: ", a, b, c, d, e)
+                    postRequest(a, b, c, d, e)
+                },
+                (err) => {
+                    console.log("Error Occured")
+                    console.log(err.stack)
+                },
+                () => {
+                    console.log("Completed")
+                }
+            )
+
+            $('#playersInsertForm').submit(event => {
+                console.log("Inserting Data")
+                event.preventDefault()
+                var formData = $('#playersInsertForm').serialize()
+                console.log(formData)
+                $.ajax({
+                    type:'POST',
+                    url: "/admin/insert/Players",
+                    data: formData,
+                    contentType: "application/x-www-form-urlencoded",
+                    success: (data) => {
+                        alert(data)
+                        // console.log("Data Inserted")
+                        $('#playersInsertForm').trigger("reset")
+                    },
+                    error: (err) => {
+                        console.log("Error Occured")
+                    }
+                })
+            })
+        })
+    </script>
+</div>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            .seriesDetail{
+                /* min-width: 100%; */
+                width: 100%;
+                overflow: auto;
+                /* border: 1px solid black; */
+                border-radius: 2px;
+                /* background-color:#f4f4f8  ; */
+                border-bottom: 1px solid black;
+                padding: 8px;
+                box-sizing: border-box;
+                padding-top: 0px;
+            }
+            .seriesDetail .left{
+                float: left;
+            }
+            .seriesDetail .right{
+                float: left;
+                margin-left: 30px;
+                max-width: 40ch;
+            }
+            .attribute{
+                font-weight: bold;
+                color: blue;
+            }
+            .seriesName{
+                color: brown;
+            }
+            .matches {
+                margin-top: 12px;
+                /* border: 1px solid black; */
+                float: left;
+            }
+            .teams{
+                float: left;
+                margin-left: 12px;
+            }
+            /* .matches table, .teams table{
+                border:1px solid black;
+            } */
+
+            .matches table td{
+                padding-right: 12px;
+                padding-bottom: 4px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="seriesDetail">
+            <h2 class="seriesName">
+                <%=Series[0].series_name%>
+            </h2>
+        <!-- <p>  -->
+            <div class = "left">
+                <span class="attribute">
+                    Started At:
+                </span>
+                <%=Series[0].starting_date%>
+            <!-- </p>
+                
+            <p> -->
+                <br>
+                <span class="attribute">
+                    End At:
+                </span>
+                <%=Series[0].end_date%>
+                <br>
+                <span class="attribute">
+                    Format:
+                </span>
+                <%=Series[0].format%>
+            <!-- </p> -->
+                &nbsp;
+                <span class="attribute">
+                    Authority:
+                </span>
+                <%=Series[0].authority%>
+                <br>
+                <span class="attribute">
+                    Number of Teams:
+                </span>
+                <%=Series[0].num_of_teams%>
+            </div>
+            <div class="right">
+                <span class="attribute">
+                    Teams: 
+                </span>
+                <%Teams.forEach((elem, index, arr)=>{%>
+                    <%= elem.team_name%>
+                    <%if(index != arr.length - 1){%>,
+                    <%}%>
+                <%})%>
+            </div>
+        </div>
+        <div class="matches">
+            <p style="font-weight:bold; color: brown">Matches</p>
+            <table>
+                <%Matches.forEach(elem=>{%>
+                    <tr>
+                        <td>
+                            <%var tmp = elem.team_name1 + 
+                                " vs " + elem.team_name2
+                            %>
+                            <a href=<%="http://localhost:8080/user/t20/match/"+ elem.match_id%>>
+                                <%=tmp%>
+                            </a>
+                        </td>
+                        <td>
+                            <%=elem.date%>
+                        </td>
+                    </tr>
+                <%})%>
+            </table>
+        </div>
+        <!-- <div class="teams">
+            <p style="font-weight:bold; color: brown">Teams</p>
+            <table>
+                <%Teams.forEach(elem=>{%>
+                    <tr>
+                        <td>
+                            <%= elem.team_name%>
+                        </td>
+                    </tr>
+                <%})%>
+            </table>
+        </div> -->
+    </body>
+</html>
