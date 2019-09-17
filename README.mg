@@ -1,1 +1,1 @@
-# cricket database
+# Cricket database
